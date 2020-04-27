@@ -12,6 +12,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       r: '',
+      data: 'No hay informacion',
       dznfile: null,
     }
     this.dznfile = this.dznfile.bind(this);
@@ -21,6 +22,7 @@ class App extends React.Component {
     event.preventDefault();
     let file = event.target.files[0];
     this.setState({ 'dznfile' : file})
+
   }
   execute = () => {
     const data = new FormData();
@@ -50,6 +52,7 @@ class App extends React.Component {
               <Card>
                 <h5>Carga tu archivo de dzn</h5>
                   <input name="dzn" type="file"  onChange={this.dznfile} />
+                  <p>{this.state.data}</p>
                 <Button onClick={this.execute} variant="primary">
                   Enviar
                   </Button>

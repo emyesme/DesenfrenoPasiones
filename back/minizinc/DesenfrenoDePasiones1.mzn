@@ -8,8 +8,8 @@ enum ACTORES;
 array[ACTORES, int] of int: Escenas;
 int: nEscenas=length(row(Escenas,1))-1;
 array[1..nEscenas] of int: Duracion;
-array[int,1..2] of int: Disponibilidad;
-array[int,1..2] of ACTORES: Evitar;
+%array[int,1..2] of int: Disponibilidad;
+%array[int,1..2] of ACTORES: Evitar;
 
 % asserts
 
@@ -66,38 +66,38 @@ array[ACTORES] of var int : TiempoDe = [(
                            endif))) | j in ACTORES];                           
 
 %Suma la duracion de las escenas en que dos actores que estan en la lista evitar se encuentran en el mismo momento en el set                     
-var int: evitar = (sum(j in 1..length(col(Evitar,1)))(
-                      let {
-                           set of int: a = EscenaDe[row(Evitar,j)[1]];
-                           set of int: b = EscenaDe[row(Evitar,j)[2]];
-                           var int: primera = (if sum(a intersect b) != 0
-                                               then min([PosicionDeEscena[e] | e in a intersect b])
-                                               else 0
-                                               endif);
-                           var int: ultima = (if primera != 0
-                                              then min([max([PosicionDeEscena[e] | e in a]),
-                                                        max([PosicionDeEscena[e] | e in b])])
-                                              else -1
-                                              endif);
-                     }
-                     in
-                     (sum(i in 1..nEscenas)
-                          (if PosicionDeEscena[i] >= primera
-                              /\
-                              PosicionDeEscena[i] <= ultima
-                           then Duracion[i]
-                           else 0
-                           endif))));
+%var int: evitar = (sum(j in 1..length(col(Evitar,1)))(
+%                      let {
+%                           set of int: a = EscenaDe[row(Evitar,j)[1]];
+%                           set of int: b = EscenaDe[row(Evitar,j)[2]];
+%                           var int: primera = (if sum(a intersect b) != 0
+%                                               then min([PosicionDeEscena[e] | e in a intersect b])
+%                                               else 0
+%                                               endif);
+%                           var int: ultima = (if primera != 0
+%                                              then min([max([PosicionDeEscena[e] | e in a]),
+%                                                        max([PosicionDeEscena[e] | e in b])])
+%                                              else -1
+%                                              endif);
+%                     }
+%                     in
+%                     (sum(i in 1..nEscenas)
+%                          (if PosicionDeEscena[i] >= primera
+%                              /\
+%                              PosicionDeEscena[i] <= ultima
+%                           then Duracion[i]
+%                           else 0
+%                           endif))));
                                    
 % Restricciones
 
 constraint all_different(PosicionDeEscena);
 
-constraint forall(i in 1..length(col(Disponibilidad,1)))
-                  (if row(Disponibilidad,i)[2] = 0
-                  then TiempoDe[ACTORES[row(Disponibilidad,i)[1]]] > row(Disponibilidad,i)[2]
-                  else TiempoDe[ACTORES[row(Disponibilidad,i)[1]]] <= row(Disponibilidad,i)[2]
-                  endif);
+%constraint forall(i in 1..length(col(Disponibilidad,1)))
+%                  (if row(Disponibilidad,i)[2] = 0
+%                  then TiempoDe[ACTORES[row(Disponibilidad,i)[1]]] > row(Disponibilidad,i)[2]
+%                  else TiempoDe[ACTORES[row(Disponibilidad,i)[1]]] <= row(Disponibilidad,i)[2]
+%                  endif);
 
 
 %solve satisfy;
@@ -106,7 +106,5 @@ solve minimize costo;
 
 %salida
 
-output["posicion(\(PosicionDeEscena[p])):\(p) " | p in 1..length(PosicionDeEscena)]++["\n"]
-++["Tiempo compartido: \(evitar)"]++["\n"]
-++["Costo: \(costo) \n"];
+output ["[ "]++["\(p) " | p in arg_sort(PosicionDeEscena)]++["]"]++["Costo: \(costo) \n"];
 %output["Costo: \(costo) \n"];

@@ -1,5 +1,5 @@
-posicion(8):1 posicion(3):2 posicion(6):3 posicion(4):4 posicion(9):5 posicion(7):6 posicion(2):7 posicion(1):8 posicion(5):9 
-Tiempo compartido: 11
-Costo: 520 
+[ 2 4 3 6 1 5 ]
+Tiempo compartido: 8
+Costo: 330 
 ----------
 ==========

@@ -24,11 +24,16 @@ def upload_file():
     dznfile = request.files['dznfile']
     filename = secure_filename(dznfile.filename)
     dznfile.save(os.path.join(target, 'temp.dzn'))
-    command = "/home/esmeralda/Desktop/MiniZincIDE-2.3.2-bundle-linux-x86_64/MiniZincIDE-2.3.2-bundle-linux/bin/minizinc --solver Gecode /home/esmeralda/Desktop/DesenfrenoPasiones/minizinc/DesenfrenoDePasiones.mzn " + os.path.join(target, 'temp.dzn') + '>' + os.path.join(target, 'output.txt')
+    command = "minizinc --solver Gecode " + os.path.join(getcwd(),'minizinc', 'DesenfrenoDePasiones2.mzn') + " " + os.path.join(target, 'temp.dzn') + '>' + os.path.join(target, 'output.txt')
     result = subprocess.Popen(command, shell=True)
     f = open(os.path.join(target, 'output.txt'))
     result = f.read()
     return result
 
+@app.route('/', methods=['GET'])
+
+def hi():
+    return "hello pyzinc"
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)
