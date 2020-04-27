@@ -1,18 +1,35 @@
-ACTORES = {Actor1, Actor2, Actor3, Actor4, Actor5} ;
+ACTORES = {Actor1, Actor2, Actor3, Actor4, Actor5, Actor6, Actor7} ;
 
-Escenas = [| 0,1,0,0,0,0,1,10
-           | 0,1,1,1,0,1,1,20
-           | 1,1,1,1,0,1,0,5
-           | 0,1,1,1,0,0,1,5
-           | 1,0,0,0,1,1,0,15|]; 
+Escenas = [| 0,1,0,0,0,0,1,0,0,10
+           | 0,1,1,1,0,1,1,1,1,20
+           | 1,1,1,1,0,1,0,0,1,5
+           | 0,1,1,1,0,0,1,1,1,5
+           | 1,0,0,0,1,1,0,0,0,15
+           | 0,0,0,0,1,0,0,1,0,19
+           | 0,1,0,0,1,0,0,0,0,8|]; 
            
-Duracion = [2,1,1,1,3,4,2];
+           
+Duracion = [2,1,1,1,3,4,2,3,1];
 
 
-%Ejecución con Gecode
+Disponibilidad =[|Actor1, 15
+                 |Actor2, 15
+                 |Actor3, 16
+                 |Actor4, 17
+                 |Actor5, 12
+                 |Actor6, 0
+                 |Actor7, 0|];
 
-% Orden de las Escenas: [5, 1, 6, 3, 4, 2, 7]
-% Costo: 415
+Evitar =[|Actor1, Actor2
+         |Actor2, Actor3
+         |Actor4, Actor5
+         |Actor1, Actor6|];
+
+% Ejecución con Gecode
+
+% Orden de las Escenas: [1, 5, 8, 6, 9, 4, 3, 2, 7]
+% Costo: 841
+% Tiempo Compartido: 21
 % ----------
 % ==========
-% Finished in 2m 2s
+% Finished in 4m 16s
