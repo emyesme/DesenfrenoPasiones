@@ -19,19 +19,23 @@ def allowed_file(filename):
 @app.route('/dzn', methods=['POST'])
 @cross_origin()
 def upload_file():
-    result = "nada"
+    models = ['DesenfrenoDePasiones1.mzn', 'DesenfrenoDePasiones2.mzn']
+    result = "" 
     target = os.path.join(getcwd(), 'upload') 
-    dznfile = request.files['dznfile']
-    filename = secure_filename(dznfile.filename)
-    dznfile.save(os.path.join(target, 'temp.dzn'))
-    command = "minizinc --solver Gecode " + os.path.join(getcwd(),'minizinc', 'DesenfrenoDePasiones2.mzn') + " " + os.path.join(target, 'temp.dzn') + '>' + os.path.join(target, 'output.txt')
-    result = subprocess.Popen(command, shell=True)
-    f = open(os.path.join(target, 'output.txt'))
-    result = f.read()
-    return result
+    dznfile = request.files['dznfile'] 
+    if dznfile and allowed_file(dznfile.filename):
+        model = models[int(request.args.get('model'))]
+        #filename = secure_filename(dznfile.filename)
+        dznfile.save(os.path.join(target, 'temp.dzn'))
+        command = "minizinc --solver Chuffed " + os.path.join(getcwd(),'minizinc', model) + " " + os.path.join(target, 'temp.dzn') + '>' + os.path.join(target, 'output.txt')
+        result = subprocess.Popen(command, shell=True)
+        result.wait()
+        f = open(os.path.join(target, 'output.txt'))
+        result = f.read()
+        return result
+    return "archivo invalido"
 
 @app.route('/', methods=['GET'])
-
 def hi():
     return "hello pyzinc"
 
