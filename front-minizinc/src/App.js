@@ -27,7 +27,7 @@ class App extends React.Component {
   }
   execute = () => {
     if (this.state.model === -1) {
-      alert("No se a escogido un modelo")
+      alert("No se ha escogido un modelo")
     } else {
       const data = new FormData();
       data.append('dznfile', this.state.dznfile);
@@ -37,8 +37,13 @@ class App extends React.Component {
         data: data,
         params: { model : this.state.model },
         config: { headers: { 'Content-Type': 'multipart/form-data' } }
-      }).then((response) => this.setState({ r: response.data })
-      ).catch((error) => console.log(error))
+      }).then((response) => {
+        if(response.data === ""){
+          alert("Se ha producido un error. Es posible que la causa sea la selección de un modelo incorrecto");
+        }else{
+          this.setState({ r: response.data })
+        }}
+      ).catch((error) => alert("Se ha producido un error. Es posible que la causa sea la selección de un modelo incorrecto"))
     }
 
   }

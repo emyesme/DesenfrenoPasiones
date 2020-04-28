@@ -22,6 +22,7 @@ Una vez clonado el repositorio en la carpeta raiz debe ejecutar
 
 ```
 docker-compose up --build
+docker exec -it react npm install --save axios
 ```
 **Nota:**
 El comando anterior va a tomar algun tiempo, por favor sea paciente.
