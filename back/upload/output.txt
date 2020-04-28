@@ -2,4 +2,4 @@
 Tiempo compartido: 5
 Costo: 450 
 ----------
-==========
+=======
