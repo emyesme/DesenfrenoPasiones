@@ -11,7 +11,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      r: 'a',
+      r: '',
       model: -1,
       data: 'No hay informacion',
       dznfile: null,
@@ -23,24 +23,26 @@ class App extends React.Component {
   }
   formatdata = (text) => {
     this.setState({data: ""});
-    var result = "";
+    var result = ``;
     var all = text.split("\n");
     if (all[0].includes("ACTORES =")) {
       const actores = all[0].split(",").length;
-      result += "Actores: " + actores + ",    ";
-      /*var index = all.indexOf(all.find(res => res.includes("Escenas =")));
-       for (var i=index; i<index+actores; i++ ){
+      result += `Actores: ` + actores + `\n`;
+      var index = all.indexOf(all.find(res => res.includes("Escenas =")));
+      const escenas = all[index].split(",").length - 1;
+      result += `Escenas: ` + escenas + `\n`;
+      /*for (var i=index; i<index+actores; i++ ){
         result += all[i] + "\n";
-      } */
+      }*/
       var disponibilidad = all.find(res => res.includes("Disponibilidad ="));
       var evitar = all.find(res => res.includes("Evitar ="));
       if (( typeof disponibilidad !== "undefined" ) && ( typeof evitar !== "undefined" )){
-        result += "Deberias usar el Modelo 2\n";
+        result += `Deberias usar el Modelo 2\n`;
       }else{
-        result += "Deberias usar el Modelo 1\n";
+        result += `Deberias usar el Modelo 1\n`;
       }
     }else{
-      result= "No hay información";
+      result= `No hay información`;
     }
     console.log(result);
     return result;
@@ -127,7 +129,7 @@ class App extends React.Component {
                 </Button>
                 
                 <Alert variant={"info"}>
-                {this.state.data}
+                  {this.state.data}
                 </Alert>
               </Card>
               <Card>

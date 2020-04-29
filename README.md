@@ -3,8 +3,12 @@ CSP final project
 
 ## Estudiantes
 
-Jaime Cuartas Granada
+Jaime Cuartas Granada, 
 Emily Esmeralda Carvajal Camelo
+
+## Nota
+
+El minizinc en esta aplicación utiliza el solver Chuffed
 
 ## Instrucciones
 
@@ -37,7 +41,9 @@ Una vez iniciado el docker puede acceder a la aplicación a través del
 ## Contenido de la carpeta
 
 La carpeta contiene 3 subdirectorios principales, uno con el back de la aplicación, otro con el front llamado front-minizinc y un directorio ejemplos, con ejemplos para correr la aplicación, al mismo nivel del README.md encontrará el informe en pdf del projecto.
+
 El directorio back contiene 2 subdirectorios, un directorio minizinc, con los modelos y un directorio upload donde en cada ejecución se guardarán los datos ingresados temp.dzn y la solución del mismo output.txt, si ejecutó el modelo. 
+
 El directorio front-minizinc contiene la estructura normal de un proyecto en react, en donde se puede tener acceso al codigo de la aplicación desde src/App.js.
 
 ```
