@@ -11,7 +11,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      r: '',
+      r: 'a',
       model: -1,
       data: 'No hay informacion',
       dznfile: null,
@@ -131,7 +131,7 @@ class App extends React.Component {
                 </Alert>
               </Card>
               <Card>
-                {this.state.r}
+                <Form.Control as="textarea" rows="8" value={this.state.r}></Form.Control>
               </Card>
             </CardDeck>
           </Modal.Body>

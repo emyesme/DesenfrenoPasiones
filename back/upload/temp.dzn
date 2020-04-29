@@ -1,26 +1,11 @@
-ACTORES = {Actor1, Actor2, Actor3, Actor4} ;
+ACTORES = {Actor1, Actor2, Actor3, Actor4, Actor5, Actor6, Actor7} ;
 
-Escenas = [| 0,1,0,0,0,0,1,10
-           | 0,1,1,1,0,1,1,20
-           | 1,1,1,1,0,1,0,5
-           | 1,0,0,0,1,1,0,15|]; 
+Escenas = [| 0,1,0,0,0,0,1,0,10
+           | 0,1,1,1,0,1,1,1,20
+           | 1,1,1,1,0,1,0,0,5
+           | 0,1,1,1,0,0,1,1,5
+           | 1,0,0,0,1,1,0,0,15
+           | 1,0,0,0,1,0,1,1,10
+           | 1,1,0,1,0,1,1,0,10|]; 
            
-Duracion = [2,1,1,1,3,4,2];
-
-
-Disponibilidad =[|Actor1, 8
-                 |Actor2, 9
-                 |Actor3, 0
-                 |Actor4, 10|];
-
-Evitar =[|Actor1, Actor2
-         |Actor2, Actor3|];
-         
-%Ejecución con Gecode
-
-% Orden de las Escenas: [5, 1, 6, 3, 4, 2, 7]
-% Costo: 390
-% Tiempo Compartido: 10
-% ----------
-% ==========
-% Finished in 164msec
+Duracion = [2,1,1,1,3,4,2,3];
