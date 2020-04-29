@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { Modal, Button, CardDeck, Card, Form } from 'react-bootstrap';
+import { Modal, Button, CardDeck, Card, Form, Alert } from 'react-bootstrap';
 import axios from 'axios';
 
 const backColor = {
@@ -15,19 +15,55 @@ class App extends React.Component {
       model: -1,
       data: 'No hay informacion',
       dznfile: null,
+      escenas: [],
     }
     this.dznfile = this.dznfile.bind(this);
     this.execute = this.execute.bind(this);
+    this.formatdata = this.formatdata.bind(this);
+  }
+  formatdata = (text) => {
+    this.setState({data: ""});
+    var result = ``;
+    var all = text.split("\n");
+    if (all[0].includes("ACTORES =")) {
+      const actores = all[0].split(",").length;
+      result += `Actores: ` + actores + `\n`;
+      var index = all.indexOf(all.find(res => res.includes("Escenas =")));
+      const escenas = all[index].split(",").length - 1;
+      result += `Escenas: ` + escenas + `\n`;
+      /*for (var i=index; i<index+actores; i++ ){
+        result += all[i] + "\n";
+      }*/
+      var disponibilidad = all.find(res => res.includes("Disponibilidad ="));
+      var evitar = all.find(res => res.includes("Evitar ="));
+      if (( typeof disponibilidad !== "undefined" ) && ( typeof evitar !== "undefined" )){
+        result += `Deberias usar el Modelo 2\n`;
+      }else{
+        result += `Deberias usar el Modelo 1\n`;
+      }
+    }else{
+      result= `No hay información`;
+    }
+    console.log(result);
+    return result;
   }
   dznfile = (event) => {
     event.preventDefault();
     let file = event.target.files[0];
     this.setState({ 'dznfile': file })
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const text = reader.result;
+      const inf = this.formatdata(text);
+      console.log(inf);
+      this.setState({ data: inf });
+    };
+    reader.readAsText(event.target.files[0]);
 
   }
   execute = () => {
-    if (this.state.model === -1) {
-      alert("No se ha escogido un modelo")
+    if (this.state.model === -1 || this.state.dznfile === null) {
+      alert("No se ha escogido un modelo o un archivo")
     } else {
       const data = new FormData();
       data.append('dznfile', this.state.dznfile);
@@ -35,26 +71,26 @@ class App extends React.Component {
         url: 'http://localhost:5000/dzn',
         method: 'POST',
         data: data,
-        params: { model : this.state.model },
+        params: { model: this.state.model },
         config: { headers: { 'Content-Type': 'multipart/form-data' } }
       }).then((response) => {
-        if(response.data === ""){
+        if (response.data === "") {
           alert("Se ha producido un error. Es posible que la causa sea la selección de un modelo incorrecto");
-        }else{
-          this.setState({ r: response.data })
-        }}
+        } else {
+          const result =  response.data;
+          this.setState({ r: result.substring(0,result.length - 22) });
+        }
+      }
       ).catch((error) => alert("Se ha producido un error. Es posible que la causa sea la selección de un modelo incorrecto"))
     }
 
   }
   clean = (event) => {
     event.preventDefault();
-    this.setState({ r: '', dznfile: null });
+    this.setState({ r: '', dznfile: null, model: -1, data: "No hay información" });
   }
   setModel = (data) => {
-    console.log(data)
     this.setState({ model: data });
-    console.log(this.state.model)
   }
   render() {
     return (
@@ -71,9 +107,8 @@ class App extends React.Component {
           <Modal.Body>
             <CardDeck>
               <Card>
-                <h5>Carga tu archivo de dzn</h5>
+                <h5>Carga tu archivo dzn</h5>
                 <input name="dzn" type="file" onChange={this.dznfile} />
-                {/*<p>{this.state.data}</p>*/}
                 <Form.Check
                   type="radio"
                   label="Modelo 1"
@@ -88,12 +123,17 @@ class App extends React.Component {
                   id="Modelo2"
                   onClick={() => this.setModel(1)}
                 />
+                <br></br>
                 <Button onClick={this.execute} variant="primary">
                   Enviar
-                  </Button>
+                </Button>
+                
+                <Alert variant={"info"}>
+                  {this.state.data}
+                </Alert>
               </Card>
               <Card>
-                {this.state.r}
+                <Form.Control as="textarea" rows="8" value={this.state.r}></Form.Control>
               </Card>
             </CardDeck>
           </Modal.Body>

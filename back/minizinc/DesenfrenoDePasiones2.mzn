@@ -3,7 +3,9 @@
 % Jaime Cuartas Granada 1632664
 % Emily Esmeralda Carvajal Camelo 1630436
 % Desenfreno de Pasiones
+
 include "globals.mzn";
+
 enum ACTORES;
 array[ACTORES, int] of int: Escenas;
 int: nEscenas=length(row(Escenas,1))-1;
@@ -24,8 +26,7 @@ constraint assert(forall(d in Duracion)(d > 0),
 constraint assert(forall(i in index_set(Duracion))
                   (forall (j in col(Escenas,i))(j = 0 \/ j = 1)),
                   "Algun valor es invalido en la matriz Escenas");
-                  
-%faltan asserts de disponibilidad y evitar%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 % Dado un actor retorna el costo del actor por las escenas en que participa
 array[ACTORES] of int: Costo = [Escenas[x,nEscenas+1] | x in ACTORES];
@@ -99,8 +100,7 @@ constraint forall(i in 1..length(col(Disponibilidad,1)))
                   else TiempoDe[ACTORES[row(Disponibilidad,i)[1]]] <= row(Disponibilidad,i)[2]
                   endif);
 
-
-%solve satisfy;
+%solver
 
 solve minimize 9*costo + evitar;
 
