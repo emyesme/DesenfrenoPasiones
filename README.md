@@ -30,7 +30,7 @@ docker exec -it react npm install --save axios
 ```
 **Nota:**
 El comando anterior va a tomar algun tiempo, por favor sea paciente.
-Este descarga y configurando minizinc, python3 y node en 2 contenedores para permitirle usar la aplicación
+Este descargando y configurando minizinc, python3 y node en 2 contenedores para permitirle usar la aplicación
 
 
 ## Finalmente
